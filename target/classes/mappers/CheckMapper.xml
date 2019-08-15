@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+ 
+<mapper namespace="hfut.se.mapper.CheckMapper">
+
+	<select id="findPreByCardId" resultType="hfut.se.bean.Prescription">
+		select
+			*
+		from prescription
+		where cardid = #{cardId} and ispaid = 0
+	</select>
+	
+	<select id="findPriceByCardId" resultType="java.lang.Double">
+		select
+			price
+		from prescription, medicine
+		where
+			cardid = #{cardId} 
+		and
+			medicine.id = prescription.med_id
+	</select>
+	
+	  
+	<insert id="saveCheckInfo">
+		insert into check_info (
+			patient_cardid, toll_username, price
+		) values (
+			#{cardId}, #{username}, #{price}
+		)
+	</insert>
+	
+
+	<update id="updatePreStatus" >
+		update prescription
+		set
+			ispaid = 1
+		where
+			id = #{preid}
+	</update>
+	
+	<select id="findPrices" resultType="java.lang.Double">
+		select
+			price 
+		from check_info 
+		order by 
+			id 
+		DESC limit 1
+	</select>
+	<!--  
+	<select id="findPricesByCardId" resultType="hfut.se.bean.CheckInfo">
+		select
+			patient_cardid as cardid,
+			price
+		from check_info
+		where
+			patient_cardid = #{cardId}
+	</select>
+	-->
+</mapper>
+
+

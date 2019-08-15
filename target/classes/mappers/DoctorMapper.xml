@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+ 
+<mapper namespace="hfut.se.mapper.DoctorMapper">
+	
+	<select id="findById" resultType="hfut.se.bean.Doctor">
+		select 
+			*
+		from 
+			doctor
+		where 
+			binary id = #{id};
+	</select>
+	
+	<insert id="save" parameterType="hfut.se.bean.Doctor" useGeneratedKeys="true" keyProperty="id">
+		insert into doctor (
+			id, name, sex, sid, password
+		) values (
+			#{id}, #{name}, #{sex}, #{sid}, md5("123456")
+		)
+	</insert>
+	
+	<update id="update" parameterType="hfut.se.bean.Doctor">
+		update doctor
+		set 
+			<if test="id != null">
+				id = #{id},
+			</if>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="sex != null">
+				sex = #{sex},
+			</if>
+			<if test="sid != null">
+				sid = #{sid}
+			</if>
+		where 
+			id = #{id}
+	</update>
+
+	<delete id="delete">
+		delete from
+			doctor
+		where
+			id = #{id}
+	</delete>
+	
+	<select id="findAll" resultType="hfut.se.bean.Doctor">
+		select 
+			*
+		from 
+			doctor
+	</select>
+	
+	<select id="findBySection" resultType="hfut.se.bean.Doctor">
+		select 
+			*
+		from 
+			doctor
+		where sid = #{arg0}
+	</select>
+	
+	<select id="getCount" resultType="Integer">
+		select 
+			count(*)
+		from 
+			doctor
+	</select>
+	
+	<update id="updatePSInfo" >
+		update doctor
+		set 
+			phone = #{phone}
+			email = #{email}
+			info = #{info}
+		where 
+			id = #{id}
+    </update>
+
+</mapper>
+

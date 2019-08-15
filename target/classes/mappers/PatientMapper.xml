@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="hfut.se.mapper.PatientMapper">
+	
+	<select id="findByCardid" resultType="hfut.se.bean.Patient">
+		select 
+			*
+		from 
+			patient
+		where 
+			binary cardid = #{cardid};
+	</select>
+
+	<delete id="delete">
+		delete from
+			patient
+		where
+			binary cardid = #{cardid}
+	</delete>
+	
+	<select id="findAll" resultType="hfut.se.bean.Patient">
+		select 
+			*
+		from 
+			patient
+	</select>
+	
+	<insert id="save" parameterType="hfut.se.bean.Patient">
+		insert into patient (
+			cardid, name, sex, phone, password
+		) values (
+			#{cardid}, #{name}, #{sex}, #{phone}, md5("123456")
+		)
+	</insert>
+	
+	<select id="findAllByDid" resultType="hfut.se.bean.Patient">
+		select 
+           *
+		from 
+			prescription,patient
+		where 
+		    did = #{did} and  prescription.cardid=patient.cardid;
+	</select>
+	
+	<update id="update_phone">
+		update patient			
+		set phone= #{phone}
+		  where
+			binary cardid = #{cardid}
+	</update>
+
+</mapper>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+ 
+<mapper namespace="hfut.se.mapper.MedicineMapper">
+	
+	<select id="findById" resultType="hfut.se.bean.Medicine">
+		select 
+			*
+		from 
+			Medicine
+		where 
+			binary id = #{id};
+	</select>
+	
+	<delete id="delete">
+		delete from
+			Medicine
+		where
+			id = #{id}
+	</delete>
+	
+	<select id="findAll" resultType="hfut.se.bean.Medicine">
+		select 
+			*
+		from 
+			Medicine
+	</select>
+	
+	<select id="getCount" resultType="Integer">
+		select 
+			count(*)
+		from 
+			Medicine
+	</select>
+	
+	<select id="findPriceById" resultType="java.lang.Double">
+		select 
+			price
+		from 
+			medicine
+		where 
+			binary id = #{id};
+	</select>
+	
+	<select id="findNameById" resultType="java.lang.String">
+		select 
+			name
+		from 
+			medicine
+		where 
+			id=#{id};
+	</select>
+	<select id="findTypeById" resultType="java.lang.String">
+		select 
+			med_type
+		from 
+			medicine
+		where 
+			id=#{id};
+	</select>
+	
+	<select id="findNumberById" resultType="java.lang.Integer">
+		select 
+			number
+		from 
+			medicine 
+		where 
+			id=#{id};
+	</select>
+	<insert id="addMedicine" useGeneratedKeys="true" keyProperty="id" 
+	parameterType="hfut.se.bean.Medicine">
+			<if test ="id !=null">
+					insert into medicine (id, name, number, med_type,price) values (
+					#{id}, #{name},#{number},#{med_type}, #{price})
+			</if>
+		
+	</insert>
+	
+	<update id="update" parameterType="hfut.se.bean.Medicine">
+		update medicine
+		set 
+			<if test="id != null">
+				 id = #{id},
+			</if>
+			<if test="price != null">
+				price = #{price}
+			</if>	
+			<if test="med_type != null">
+				med_type = #{med_type}
+			</if>	
+			<if test="name != null">
+				name = #{name}
+			</if>		
+			<if test="number != null">
+				number = #{number}
+			</if>				
+		where 
+			binary id = #{id}
+	</update>
+
+	<update id="add_number" >
+			update medicine
+			set		
+				number = #{number} + number	
+			where
+				id = #{id}
+	</update>
+	
+	<insert id ="insertEntry">
+		insert into  
+		entry(medicine_id,number) 
+		values(#{id},#{number});
+		
+	</insert>
+	
+	<insert id ="insertDelivery" parameterType="hfut.se.bean.Medicine">
+		insert into  
+		delivery(medicine_id,number) 
+		values(#{id},#{number});
+		
+	</insert>
+
+	<update id="reduce_number" parameterType="hfut.se.bean.Medicine">
+		update medicine
+		set		
+			number = number -#{number}
+		where
+			id = #{id}
+	</update>
+	
+	
+	<select id ="findEntry" resultType="hfut.se.bean.EntryDelivery">
+		select * from entry;	
+	</select>
+	<select id ="findDelivery" resultType="hfut.se.bean.EntryDelivery">
+		select * from delivery;	
+	</select>
+
+</mapper>

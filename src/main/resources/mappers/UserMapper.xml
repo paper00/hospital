@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+ 
+<mapper namespace="hfut.se.mapper.UserMapper">
+	
+	<select id="findById" resultType="hfut.se.bean.User">
+		select 
+			*
+		from 
+			loginuser
+		where 
+			binary id = #{id};
+	</select>
+	
+	<select id="findByUsername" resultType="hfut.se.bean.User">
+		select 
+			*
+		from 
+			loginuser
+		where 
+			binary username = #{arg0};
+	</select>
+	
+	<insert id="save" parameterType="hfut.se.bean.User" useGeneratedKeys="true" keyProperty="id">
+		insert into loginuser (
+			id, username, usertype, password
+		) values (
+			#{id}, #{username}, #{usertype}, md5("123456")
+		)
+	</insert>
+	
+	<update id="update" parameterType="hfut.se.bean.User">
+		update loginuser
+		set 
+			<if test="username != null">
+				username = #{username},
+			</if>
+			<if test="password != null">
+				password = md5(#{password}),
+			</if>
+			<if test="usertype != null">
+				usertype = #{usertype}
+			</if>
+		where 
+			id = #{id}
+	</update>
+
+	<delete id="delete">
+		delete from
+			loginuser
+		where
+			id = #{id}
+	</delete>
+	
+	<select id="findAll" resultType="hfut.se.bean.User">
+		select 
+			*
+		from 
+			loginuser
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
